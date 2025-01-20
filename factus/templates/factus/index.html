@@ -1,12 +1,29 @@
 {% extends 'factus/base.html' %}
 {% load static %}
 
-{% block title %} {% endblock title %}
+{% block title %} Ctalogo de productos {% endblock title %}
     
 
 {% block body %}
 
-<h1>Hola Mundo!</h1>
+<h1 class="text-center mb-4">Nuestros Productos</h1>
+        
+    <div class="row g-4">
+        <!-- Producto 1 -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <img src="https://i.ebayimg.com/images/g/gMkAAOSw4t5mKEVH/s-l500.jpg" class="card-img-top" alt="Producto 1">
+                <div class="card-body">
+                    <span class="badge category-badge mb-2">Electrónica</span>
+                    <h5 class="card-title">
+                        <a href="producto.html" class="product-title">Smartphone XYZ</a>
+                    </h5>
+                    <p class="card-text">$599.99</p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
     
 {% endblock body %}
 
