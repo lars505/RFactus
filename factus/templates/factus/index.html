@@ -7,23 +7,11 @@
 {% block body %}
 
 <h1 class="text-center mb-4">Nuestros Productos</h1>
-        
-    <div class="row g-4">
-        <!-- Producto 1 -->
-        <div class="col-md-4">
-            <div class="card h-100">
-                <img src="https://i.ebayimg.com/images/g/gMkAAOSw4t5mKEVH/s-l500.jpg" class="card-img-top" alt="Producto 1">
-                <div class="card-body">
-                    <span class="badge category-badge mb-2">Electrónica</span>
-                    <h5 class="card-title">
-                        <a href="producto.html" class="product-title">Smartphone XYZ</a>
-                    </h5>
-                    <p class="card-text">$599.99</p>
-                </div>
-            </div>
-        </div>
-        
-    </div>
+
+<div id="product-list" hx-get="{% url 'index' %}" hx-trigger="load" hx-swap="innerHTML">
+    <p>Cargando productos</p>
+</div>
+   
     
 {% endblock body %}
 

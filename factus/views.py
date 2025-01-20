@@ -1,9 +1,16 @@
 from django.conf import settings
-from django.shortcuts import render
-from .models import Products
+from django.urls import reverse
+from django.http import JsonResponse
+from django.shortcuts import render, HttpResponseRedirect
 
-# Create your views here.
+from .models import Products, Category
+
+
 
 def index(request):
 
-    return render(request, 'factus/index.html')
+    products = Products.objects.all()
+
+    return render (request, 'partials/htmx-components/product_list.html',{'products': products})
+
+

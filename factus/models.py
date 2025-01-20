@@ -19,6 +19,21 @@ class Products(models.Model):
     stock = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
 
+    def serialize(self):
+        return {
+            'id':self.id,
+            'name':self.name,
+            'image':self.image.url,
+            'price':self.price,
+            'stock':self.stock,
+            'category': {
+                'id': self.category.id,
+                'name': self.category.name
+            } if self.category else None 
+          
+        }
+
+
     def __str__(self):
         return f'{self.name} - {self.price} - {self.stock}'
     

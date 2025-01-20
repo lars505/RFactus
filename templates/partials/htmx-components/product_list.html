@@ -1,0 +1,17 @@
+{% for product in products %}
+    <div class="row g-4">
+        <!-- Producto 1 -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <img src="{{product.image.url}}" class="card-img-top" alt="{{product.name}}">
+                <div class="card-body">
+                    <span class="badge category-badge mb-2">{{product.category.name}}</span>
+                    <h5 class="card-title">
+                        <a href="producto.html" class="product-title">{{product.name}}</a>
+                    </h5>
+                    <p class="card-text">$599.99</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
