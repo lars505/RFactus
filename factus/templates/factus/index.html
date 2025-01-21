@@ -6,13 +6,28 @@
 
 {% block body %}
 
-<h1 class="text-center mb-4">Nuestros Productos</h1>
+    <h1 class="text-center mb-4">Nuestros Productos</h1>
 
-<div id="product-list" hx-get="{% url 'index' %}" hx-trigger="load" hx-swap="innerHTML">
-    <p>Cargando productos</p>
-</div>
-   
-    
+    <div class="row g-4">
+        {% for product in products %}
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <span class="badge category-badge mb-2">{{ product.category.name }}</span>
+                        <h5 class="card-title">
+                            <a href="{% url 'product_detail' product.id %}" class="product-title">{{ product.name }}</a>
+                        </h5>
+                        <p class="card-text">${{product.price}}</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">No hay productos disponibles</p>
+        {% endfor %}
+    </div>
+
+  
 {% endblock body %}
 
 
