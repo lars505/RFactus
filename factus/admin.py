@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Products, Category, Cart, CartProducts
+from .models import Products, IdentificationDocumentType, PaymentMethod, User
 
 
 
 admin.site.register(Products)
-admin.site.register(Category)
-admin.site.register(Cart)
-admin.site.register(CartProducts)
+admin.site.register(IdentificationDocumentType)
+admin.site.register(PaymentMethod)
+admin.site.register(User)

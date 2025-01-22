@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturación</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Sistema de Facturación</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="productos.html">Registrar Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="facturacion.html">Facturación</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>Nueva Factura</h2>
+        <div class="row">
+            <!-- Datos del Cliente -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Datos del Cliente</h5>
+                        <form id="clienteForm">
+                            <div class="mb-3">
+                                <label for="tipoCliente" class="form-label">Tipo de Cliente</label>
+                                <select class="form-select" id="tipoCliente" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="natural">Persona Natural</option>
+                                    <option value="juridica">Persona Jurídica</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipoIdentificacion" class="form-label">Tipo de Identificación</label>
+                                <select class="form-select" id="tipoIdentificacion" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="cedula">Cédula</option>
+                                    <option value="ruc">RUC</option>
+                                    <option value="pasaporte">Pasaporte</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="identificacion" class="form-label">Identificación</label>
+                                <input type="text" class="form-control" id="identificacion" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefono">
+                            </div>
+                            <div class="mb-3">
+                                <label for="correo" class="form-label">Correo</label>
+                                <input type="email" class="form-control" id="correo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="municipio" class="form-label">Municipio</label>
+                                <input type="text" class="form-control" id="municipio">
+                            </div>
+                            <div class="mb-3">
+                                <label for="direccion" class="form-label">Dirección</label>
+                                <textarea class="form-control" id="direccion" rows="2"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="aplicaIVA">
+                                    <label class="form-check-label" for="aplicaIVA">
+                                        Aplica IVA
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Productos y Totales -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Productos</h5>
+                        <div class="mb-3">
+                            <select class="form-select" id="productoSelect">
+                                <option value="">Seleccionar producto...</option>
+                                <!-- Los productos se cargarán aquí -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cantidad" class="form-label">Cantidad</label>
+                            <input type="number" class="form-control" id="cantidad" min="1" value="1">
+                        </div>
+                        <button class="btn btn-primary mb-3" id="agregarProducto">Agregar Producto</button>
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Precio</th>
+                                        <th>Cantidad</th>
+                                        <th>Subtotal</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productosFactura">
+                                    <!-- Los productos se agregarán aquí -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="formaPago" class="form-label">Forma de Pago</label>
+                                    <select class="form-select" id="formaPago" required>
+                                        <option value="">Seleccione...</option>
+                                        <option value="contado">Contado</option>
+                                        <option value="credito">Crédito</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="metodoPago" class="form-label">Método de Pago</label>
+                                    <select class="form-select" id="metodoPago" required>
+                                        <option value="">Seleccione...</option>
+                                        <option value="efectivo">Efectivo</option>
+                                        <option value="tarjeta">Tarjeta</option>
+                                        <option value="transferencia">Transferencia</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border-top pt-3 mt-3">
+                            <div class="row">
+                                <div class="col-md-6 text-end">
+                                    <p>Subtotal:</p>
+                                    <p>IVA (12%):</p>
+                                    <h5>Total:</h5>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <p id="subtotal">$0.00</p>
+                                    <p id="iva">$0.00</p>
+                                    <h5 id="total">$0.00</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success w-100 mt-3" id="generarFactura">Generar Factura</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/productos.js"></script>
+    <script src="js/facturacion.js"></script>
+</body>
+</html>
