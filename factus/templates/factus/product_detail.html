@@ -8,27 +8,52 @@
 
 {% block body %}
     <div class="row">
+       
         <div class="col-md-6">
-            <img src="{{product.image.url}}" class="img-fluid rounded" alt="{{product.name}}">
+            <img src="{{product.image.url}}" class="img-fluid product-image" alt="{{product.name}}">
         </div>
         <div class="col-md-6">
-            <span class="badge category-badge mb-2">{{product.category.name}}</span>
-            <h1>{{product.name}}</h1>
-            <p class="fs-2 text-primary">${{product.name}}</p>
-            <p class="mb-4">{{product.description}}.</p>
-            <form action="{% url 'add_to_cart' product.pk %}" method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <input type="hidden" name="product_id" value="{{product.id}}">
-                    <label for="cantidad" class="form-label">Cantidad:</label>
-                    <input type="number" class="form-control" id="cantidad" name="cantidad" value="1" min="1" style="max-width: 100px;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge category-badge">{{product.category.name}}</span>
+                <span class="badge stock-badge">{{product.stock}} disponibles</span>
+            </div>
+            <h1 class="mb-3">{{product.name}}</h1>
+            <p class="price fs-2 mb-4">${{product.price}}</p>
+            
+            <div class="stock-info">
+                <h6 class="fw-bold mb-3">Información de Stock</h6>
+                <div class="stock-info-item">
+                    <i class="bi bi-check-circle-fill text-success"></i>
+                    <span>Disponible para envío inmediato</span>
                 </div>
-                
-                <button class="btn btn-primary btn-lg" onclick="window.location.href='carrito.html'">
-                    Agregar al Carrito
-                </button>
-            </form>
+                <div class="stock-info-item">
+                    <i class="bi bi-truck"></i>
+                    <span>Envío en 24-48 horas</span>
+                </div>
+                <div class="stock-info-item">
+                    <i class="bi bi-shop"></i>
+                    <span>Disponible en tienda</span>
+                </div>
+            </div>
+
+            <p class="mb-4">{{product.description}}.</p>
+            
+            <div class="mb-4">
+                <label for="cantidad" class="form-label fw-bold">Cantidad:</label>
+                <input type="number" class="form-control quantity-input" id="cantidad" value="1" min="1" max="15">
+                <small class="text-muted d-block mt-2">Máximo {{product.stock}} unidades por compra</small>
+            </div>
+            
+            <button class="btn btn-primary w-100" onclick="window.location.href='carrito.html'">
+                <i class="bi bi-cart-plus me-2"></i>Agregar al Carrito
+            </button>
         </div>
+
+
+
+
+
+
     </div>
 {% endblock body %}
 
