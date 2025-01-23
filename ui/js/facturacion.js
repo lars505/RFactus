@@ -34,6 +34,7 @@ function agregarProductoAFactura() {
 // Función para eliminar producto de la factura
 function eliminarProductoDeFactura(codigo) {
     productosEnFactura = productosEnFactura.filter(p => p.codigo !== codigo);
+    console.log(productosEnFactura)
     actualizarTablaFactura();
     calcularTotales();
 }
