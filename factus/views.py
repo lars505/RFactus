@@ -7,6 +7,9 @@ from .models import Products, PaymentMethod, IdentificationDocumentType,Municipa
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+import logging
+logger = logging.getLogger(__name__)
+
 def index(request):
     return render(request, 'factus/index.html')
 
@@ -63,6 +66,7 @@ def load_product(request, product_id):
 def procesar_factura(request):
     if request.method == 'POST':
         try:
+            logger.debug(f"Body recibido: {request.body.decode('utf-8')}")  
             data = json.loads(request.body)
             print(data)
             # # Procesar datos del cliente

@@ -157,27 +157,32 @@ function enviarFactura() {
     alert("Enviando datos")
     // Obtener datos del cliente
     const cliente = {
-        nombre: document.getElementById('nombreCliente').value,
+        tipoCliente : document.getElementById('tipoCliente').value,
         tipoIdentificacion: document.getElementById('IdentificationDocumentType').value,
-        identificacion: document.getElementById('numeroIdentificacion').value,
+        identificacion: document.getElementById('identification').value,
+        nombre: document.getElementById('nombre').value,
+        telefono: document.getElementById('telefono').value,
+        email: document.getElementById('correo').value,
+        municipio: document.getElementById('municipio').value,
+        direccion: document.getElementById('direccion').value,
         metodoPago: document.getElementById('metodoPago').value,
-        municipio: document.getElementById('municipio').value
     };
 
     // Preparar los datos de la factura
     const factura = {
         cliente: cliente,
         productos: productosEnFactura, // Aquí va la lista de productos seleccionados
+        rango : document.getElementById('rangoDocumento').value,
         aplicaIVA: document.getElementById('aplicaIVA').checked,
         subtotal: parseFloat(document.getElementById('subtotal').textContent.replace('$', '')),
         iva: parseFloat(document.getElementById('iva').textContent.replace('$', '')),
         total: parseFloat(document.getElementById('total').textContent.replace('$', ''))
     };
 
-    console.log('Factura enviada:', factura);
+    // console.log('Factura enviada:', factura);
 
     // Enviar los datos al backend
-    fetch('/procesar/factura/', {
+    fetch('/procesar_factura/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -202,6 +207,13 @@ function enviarFactura() {
     });
 }
 
+function getCSRFToken() {
+    const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1];
+    return cookieValue;
+}
 
 
 

@@ -16,6 +16,8 @@
                             <label for="tipoCliente" class="form-label">Tipo de Cliente</label>
                             <select class="form-select" name="tipoCliente" id="tipoCliente" required>
                                 <option value="">Seleccione...</option>
+                                <option value="1">Persona juridica</option>
+                                <option value="2">Persona Natural</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -67,6 +69,22 @@
         <div class="col-md-8">
             <div class="card mb-4">
                 <div class="card-body">
+                    <h5 class="card-title">Facturacion</h5>
+
+                    <div class="row mt-3">
+                        <div class="mb-3">
+                            <div class="mb-3">
+                                <label for="formaPago" class="form-label">Rango del Documento</label>
+                                <select class="form-select" id="rangoDocumento" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="8">Factura de Venta</option>
+                                    <option value="9">Nota de Crédito</option>
+                                    <option value="10">Nota de Débito</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
                     <h5 class="card-title">Productos</h5>
                     <div class="mb-3">
                         <select class="form-select" id="productoSelect">
