@@ -57,7 +57,7 @@ function cargaroMunicipio(metodos) {
     const metodoPagoSelect = document.getElementById('municipio');
     metodos.forEach(metodo => {
         const option = document.createElement('option');
-        option.value = metodo.code;
+        option.value = metodo.id;
         option.textContent = `${metodo.name} - ${metodo.department}`;
         metodoPagoSelect.appendChild(option);
     });
@@ -86,6 +86,7 @@ function agregarProductoAFactura() {
         
         const productoEnFactura = {
             data,
+            iva,
             cantidad,
             subtotal: data.price * cantidad
         };
@@ -154,7 +155,15 @@ function calcularTotales() {
 
 function enviarFactura() {
 
-    alert("Enviando datos")
+    Swal.fire({
+        title: 'Enviando factura...',
+        text: 'Por favor espera mientras procesamos los datos',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
     // Obtener datos del cliente
     const cliente = {
         tipoCliente : document.getElementById('tipoCliente').value,
@@ -174,6 +183,7 @@ function enviarFactura() {
         productos: productosEnFactura, // Aquí va la lista de productos seleccionados
         rango : document.getElementById('rangoDocumento').value,
         aplicaIVA: document.getElementById('aplicaIVA').checked,
+        retenciones: "01",
         subtotal: parseFloat(document.getElementById('subtotal').textContent.replace('$', '')),
         iva: parseFloat(document.getElementById('iva').textContent.replace('$', '')),
         total: parseFloat(document.getElementById('total').textContent.replace('$', ''))
@@ -197,13 +207,25 @@ function enviarFactura() {
         return response.json();
     })
     .then(data => {
-        alert('Factura enviada correctamente');
         console.log('Respuesta del servidor:', data);
-        // Aquí puedes limpiar la tabla o redirigir
+        Swal.fire({
+            icon: 'success',
+            title: 'Factura enviada correctamente',
+            text: 'Los datos han sido procesados exitosamente.',
+        });
+        
+        // #rediccionar al load_facturas
+        window.location.href = '/load_facturas/';
+        cleanForm();
+       
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Ocurrió un error al enviar la factura.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al enviar la factura',
+            text: 'Ocurrió un problema al procesar los datos. Por favor, intenta de nuevo.',
+        });
     });
 }
 
@@ -215,7 +237,22 @@ function getCSRFToken() {
     return cookieValue;
 }
 
-
+function cleanForm(){
+    productosEnFactura = [];
+    actualizarTablaFactura();
+    calcularTotales();
+    document.getElementById('tipoCliente').value = '';
+    document.getElementById('IdentificationDocumentType').value = '';
+    document.getElementById('identification').value = '';
+    document.getElementById('nombre').value = '';
+    document.getElementById('telefono').value = '';
+    document.getElementById('correo').value = '';
+    document.getElementById('municipio').value = '';
+    document.getElementById('direccion').value = '';
+    document.getElementById('metodoPago').value = '';
+    document.getElementById('rangoDocumento').value = '';
+    document.getElementById('aplicaIVA').checked = false;
+}
 
 
 document.addEventListener('DOMContentLoaded', function () {

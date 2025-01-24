@@ -81,6 +81,7 @@ class Municipality(models.Model): # ID único
 
     def serialize(self):
         return {
+            'id':self.id,
             'code':self.code,
             'name':self.name,
             'department':self.department,
