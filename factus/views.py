@@ -133,23 +133,66 @@ def procesar_factura(request):
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
 
+# def load_facturas(request):
+#     api = FactusAPI()
+    
+#     # Obtén la página actual desde los parámetros GET (por defecto, es la página 1)
+#     page = request.GET.get("page", 1)
+#     endpoint = f"/v1/bills?page={page}&filter[identification]&filter[names]&filter[number]&filter[prefix]&filter[reference_code]&filter[status]"
+    
+#     # Realiza la solicitud al API
+#     response = api.request("GET", endpoint)
+    
+#     if response["status"] == "OK":
+#         facturas = response["data"]["data"]  # Lista de facturas
+#         pagination = response["data"]["pagination"]  # Datos de paginación
+        
+#         for factura in facturas:
+#             # print(factura["id"])
+#             detalle_factura = api.request("GET", f"/v1/bills/show/{factura['number']}")
+#             factura["dian"] = detalle_factura.get('data', '').get('bill', '').get('qr', '')
+#             factura["factura"] = detalle_factura.get('data', '').get('bill', '').get('public_url', '')
+#     else:
+#         facturas = []
+#         pagination = None
+
+#     return render(request, "factus/facturas.html", {"facturas": facturas, "pagination": pagination})
+
+import concurrent.futures
+
+def obtener_detalle_factura(factura):
+    api = FactusAPI()
+    return api.request("GET", f"/v1/bills/show/{factura['number']}")
+
 def load_facturas(request):
     api = FactusAPI()
-    
-    # Obtén la página actual desde los parámetros GET (por defecto, es la página 1)
     page = request.GET.get("page", 1)
     endpoint = f"/v1/bills?page={page}&filter[identification]&filter[names]&filter[number]&filter[prefix]&filter[reference_code]&filter[status]"
     
-    # Realiza la solicitud al API
     response = api.request("GET", endpoint)
     
     if response["status"] == "OK":
-        facturas = response["data"]["data"]  # Lista de facturas
-        pagination = response["data"]["pagination"]  # Datos de paginación
+        facturas = response["data"]["data"]
+        pagination = response["data"]["pagination"]
+        
+        # Realizamos las solicitudes de forma concurrente
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            results = list(executor.map(obtener_detalle_factura, facturas))
+        
+        # Asignamos los resultados a las facturas
+        for factura, detalle_factura in zip(facturas, results):
+            factura["dian"] = detalle_factura.get('data', {}).get('bill', {}).get('qr', '')
+            factura["factura"] = detalle_factura.get('data', {}).get('bill', {}).get('public_url', '')
+            
     else:
         facturas = []
         pagination = None
 
     return render(request, "factus/facturas.html", {"facturas": facturas, "pagination": pagination})
+
+def factura_info(request, number):
+    api = FactusAPI()
+    response = api.request("GET", f"/v1/bills/show/{number}")
+    return JsonResponse(response)
 
 

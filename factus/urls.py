@@ -10,4 +10,5 @@ urlpatterns = [
     path('load_product/<int:product_id>/',views.load_product, name='load_product'),
     path('procesar_factura/', views.procesar_factura, name='procesar_factura'),
     path('load_facturas/', views.load_facturas, name='load_facturas'),
+    path('factura_info/<str:number>/', views.factura_info, name='factura_info'),
 ]
