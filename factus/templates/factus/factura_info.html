@@ -1,0 +1,159 @@
+{% extends 'factus/base.html' %}
+
+{% block title %}
+    Factura
+{% endblock title %}
+
+
+{% block body %}
+<div class="bg-light lter b-b wrapper-md p-5" style="background-color: white !important;">
+    <div class="row invoice row-printable">
+        <div class="col-md-12">
+            <!-- col-lg-12 start here -->
+            <div class="panel panel-default plain" id="dash_0">
+                <!-- Start .panel -->
+                <div class="panel-body p30">
+                    <div class="row">
+                        <!-- Start .row -->
+                        <div class="col-lg-6 col-sm-12">
+                            <!-- col-lg-6 start here -->
+                            <div class="invoice-logo">
+                                <img width="100" src="{{factura.data.company.url_logo}}" alt="Invoice logo">
+                            </div>
+                        </div>
+                        <!-- col-lg-6 end here -->
+                        <div class="col-lg-6 col-sm-12 text-end">
+                            <!-- col-lg-6 start here -->
+                            <div class="invoice-from">
+                                <ul class="list-unstyled text-right">
+                                    <li class="">{{factura.data.company.company}}</li>
+                                    <li class="">{{factura.data.company.direction}}</li>
+                                    <li class="">{{factura.data.company.municipality}}</li>
+                                    <li class="">{{factura.data.company.phone}}</li>
+                                    <li class="">{{factura.data.company.email}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- col-lg-6 end here -->
+                        <div class="col-lg-12">
+                            <!-- col-lg-12 start here -->
+                            <div class="invoice-details mt25">
+                                <div class="well">
+                                    <ul class="list-unstyled mb0">
+                                        <li><strong> {{factura.data.bill.document.name}} </strong></li>
+                                        <li><strong>Numero de factura:</strong> {{factura.data.bill.number}}</li>
+                                        <li><strong>Invoice Date:</strong>{{factura.data.bill.validated}}</li>
+                                       
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="invoice-to mt-5">
+                                <ul class="list-unstyled">
+                                    <li><strong>CC/NIT: </strong> {{factura.data.customer.identification}}</li>
+                                    <li><strong>Cliente: </strong> {{factura.data.customer.names | capfirst }}</li>
+                                    <li><strong>Direccion: </strong>{{factura.data.customer.address | capfirst}}</li>
+                                    <li><strong>Municipio: </strong> {{factura.data.customer.municipality.name | capfirst}}</li>
+                                    <li><strong>Correo: </strong>{{factura.data.customer.email}}</li>
+                
+                                </ul>
+                            </div>
+                            <div class="invoice-items">
+                                <div class="table-responsive">
+                                    <table class="table  table-hover table-responsive table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="per5 text-center">Codigo</th>
+                                                <th class="per70 text-center">Descripcion</th>
+                                                <th class="per25 text-center">Val. Unit</th>
+                                                <th class="per5 text-center">Cantidad</th>
+                                                <th class="per25 text-center">Descuento</th>
+                                                <th class="per25 text-center">IVA</th>
+                                                <th class="per25 text-center">Val. Item</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in factura.data.items %}
+                                                <tr>
+                                                    <td class="text-center">{{item.code_reference}}</td>
+                                                    <td class="text-center">{{item.name}}</td>
+                                                    <td class="text-center">${{item.price}}</td>
+                                                    <td class="text-center">{{item.quantity}}</td>
+                                                    <td class="text-center">{{item.discount}}</td>
+                                                    <td class="text-center">{{item.tax_rate}}%</td>
+                                                    <td class="text-center">${{item.price}}</td>
+                                                    
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot >
+                                           
+                                            <tr>
+                                                
+                                                <th colspan="6" class="text-end">Valor Bruto:</th>
+                                                <th class="text-center">${{factura.data.bill.gross_value}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="6" class="text-end">Base Imponible:</th>
+                                                <th class="text-center">${{factura.data.bill.taxable_amount}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="6" class="text-end">Impuestos:</th>
+                                                <th class="text-center">${{factura.data.bill.tax_amount}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="6" class="text-end">Total factura:</th>
+                                                <th class="text-center">${{factura.data.bill.total}}</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                        <!-- col-lg-12 end here -->
+                    </div>
+                    <!-- End .row -->
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="invoice-notes">
+                            <div class="well">
+                                <strong>Forma de pago:</strong>
+                                <p>{{factura.data.bill.payment_form.name}}</p>
+                            </div>
+                        </div>
+                        <div class="invoice-notes">
+                            <div class="well">
+                                <strong>Medio de Pago:</strong>
+                                <p>{{factura.data.bill.payment_method.name}}</p>
+                            </div>
+                        
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- imagen qr -->
+                        <div class="invoice-logo d-flex flex-column align-items-center justify-content-center">
+                            <div class="image">
+                                <img width="150" src="{{factura.data.bill.qr_image}}" alt="Invoice logo">
+                            </div>
+                            <div class="link">
+                                <a href="{{factura.data.bill.qr}}" target="_blank" class=" text-center" title="DIAN">DIAN</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- aqui va el boton de descarga -->
+                <div class="panel-footer text-right">
+                    <button type="button" class="btn btn-primary text-center" title="Imprimir factura" onclick="printPage()"><i class="bi bi-printer"></i> Imprimir</button>
+                    <script>
+                        function printPage() {
+                            window.print();
+                        }
+                    </script>
+                </div>
+            </div>
+            <!-- End .panel -->
+        </div>
+        <!-- col-lg-12 end here -->
+    </div>
+    </div>
+{% endblock body %}

@@ -13,7 +13,7 @@
         {% for factura in facturas %}
         <div class="list-group-item d-flex justify-content-between align-items-center">
             <div>
-                <p class="mb-1"><strong>Número:</strong> <a href="{% url 'factura_info' factura.number %}">{{ factura.number }}</a> </p>
+                <p class="mb-1"><strong>Número:</strong> {{ factura.number }}</p>
              
                 <p class="mb-1"><strong>Código:</strong> {{ factura.reference_code }}</p>
                 <p class="mb-1"><strong>Cliente:</strong> {{ factura.names }}</p>
@@ -26,8 +26,7 @@
                 <p class="mb-1"><strong>Fecha de creación:</strong> {{ factura.created_at }}</p>
             </div>
             <div class="d-flex gap-2">
-                <a href="{{ factura.factura}}" target="_blank" class="btn btn-primary " title="Ver factura"><i class="bi bi-eye"></i> Ver</a>
-                <a href="{{ factura.dian}}" target="_blank" class="btn btn-success" title="Descargar factura"><i class="bi bi-building-fill-check"></i> DIAN</a>
+                <a href="{% url 'factura_info' factura.number %}" target="_blank" class="btn btn-primary " title="Ver factura"><i class="bi bi-eye"></i> Ver</a>
             </div>
         </div>
         {% endfor %}
