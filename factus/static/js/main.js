@@ -1,4 +1,4 @@
-// Variables globales para la factura
+
 let productosEnFactura = [];
 
 
@@ -95,14 +95,11 @@ function agregarProductoAFactura() {
         productosEnFactura.push(productoEnFactura);
         actualizarTablaFactura();
         calcularTotales();
-        // Resetear campos
+        
         productoSelect.value = '';
         cantidadInput.value = '1';
     })
 
-
-
-    
 }
 
 function actualizarTablaFactura() {
@@ -177,10 +174,10 @@ function enviarFactura() {
         metodoPago: document.getElementById('metodoPago').value,
     };
 
-    // Preparar los datos de la factura
+    
     const factura = {
         cliente: cliente,
-        productos: productosEnFactura, // Aquí va la lista de productos seleccionados
+        productos: productosEnFactura, 
         rango : document.getElementById('rangoDocumento').value,
         aplicaIVA: document.getElementById('aplicaIVA').checked,
         retenciones: "01",
@@ -191,12 +188,12 @@ function enviarFactura() {
 
     // console.log('Factura enviada:', factura);
 
-    // Enviar los datos al backend
+    
     fetch('/procesar_factura/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCSRFToken() // Si estás usando CSRF en Django
+            'X-CSRFToken': getCSRFToken() 
         },
         body: JSON.stringify(factura)
     })
