@@ -26,17 +26,21 @@ class FactusAPI:
             "client_id": self.client_id,
             "client_secret": self.client_secret,
         }
+
         response = requests.post(url, data=payload)
         response.raise_for_status()  
 
         tokens = response.json()
+
         FactusAPI._access_token = tokens.get("access_token")
+
         expires_in = tokens.get("expires_in", 3600)  # Por defecto, 1 hora
+
         FactusAPI._token_expires_at = time.time() + expires_in
 
     def get_access_token(self):
         """
-        Devuelve un token válido (lo genera si ha expirado o no existe).
+            Devuelve un token válido (lo genera si ha expirado o no existe).
         """
         if not FactusAPI._access_token or FactusAPI._token_expires_at <= time.time():
             self._generate_token()

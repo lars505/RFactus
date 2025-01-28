@@ -68,6 +68,7 @@ def procesar_factura(request):
         try:
             try:
                 data = json.loads(request.body)
+
             except json.JSONDecodeError:
                 return JsonResponse({'error': 'Formato JSON inválido'}, status=400)
 
@@ -109,7 +110,7 @@ def procesar_factura(request):
                         "withholding_taxes": [
                             {
                                 "code": "01",  # Ajusta según sea necesario
-                                "withholding_tax_rate": "19.00"
+                                "withholding_tax_rate": "15.00"
                             },
                         ] if producto.get("retenciones") else []
                     }
@@ -123,6 +124,9 @@ def procesar_factura(request):
 
             # Solicitud a la API
             response = api.request("POST", "/v1/bills/validate", data=factura_data)
+
+            print(f"Respuesta de la API: {response}")
+
 
             # Verificar si la respuesta es válida
             return JsonResponse(response, safe=False)
