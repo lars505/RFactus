@@ -8,7 +8,6 @@ from .models import Products, PaymentMethod, IdentificationDocumentType,Municipa
 
 import uuid
 
-
 from .services.factus_api import FactusAPI
 
 def index(request):
@@ -133,10 +132,8 @@ def procesar_factura(request):
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
-
 def load_facturas(request):
     api = FactusAPI()
-    
     
     page = request.GET.get("page", 1)
     endpoint = f"/v1/bills?page={page}&filter[identification]&filter[names]&filter[number]&filter[prefix]&filter[reference_code]&filter[status]"
